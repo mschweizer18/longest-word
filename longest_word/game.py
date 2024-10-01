@@ -1,5 +1,6 @@
 import random
 import string
+import requests
 
 # pylint: disable=missing-docstring
 # pylint: disable=too-few-public-methods
@@ -18,9 +19,11 @@ class Game:
         if not word:
             return False
 
+        response = requests.get(f'https://dictionary.lewagon.com/{word}').json()
+
         grid = self.grid.copy()
         for letter in word:
-            if letter in grid:
+            if letter in grid and response['found'] == True:
                 grid.remove(letter)
             else:
                 return False
